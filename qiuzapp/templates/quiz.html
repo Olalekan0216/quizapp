@@ -1,0 +1,124 @@
+{% extends "layout/auth.html" %} {% block content %}
+<div class="container my-5">
+  <!-- Title with Bootstrap classes for text styling -->
+  <h1 class="text-center text-primary mb-4">Answer the following questions</h1>
+
+  <!-- Form wrapped in card component for better design -->
+  <div class="card p-4">
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="questions" value="{{questions}}" />
+      {% for question in questions %}
+      <div class="mb-3">
+        <p class="h5">{{ question.question_text }}</p>
+
+        <!-- Grouping the radio buttons within a div for better alignment -->
+        <div class="form-check">
+          <input
+            type="radio"
+            id="option_1_{{ forloop.counter }}"
+            name="answer_{{question.id}}"
+            class="form-check-input"
+            value="{{ question.option_1 }}"
+          />
+          <label class="form-check-label" for="option_1_{{ forloop.counter }}"
+            >{{ question.option_1 }}</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            id="option_2_{{ forloop.counter }}"
+            name="answer_{{question.id}}"
+            class="form-check-input"
+            value="{{ question.option_2 }}"
+          />
+          <label class="form-check-label" for="option_2_{{ forloop.counter }}"
+            >{{ question.option_2 }}</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            id="option_3_{{ forloop.counter }}"
+            name="answer_{{question.id}}"
+            class="form-check-input"
+            value="{{ question.option_3 }}"
+          />
+          <label class="form-check-label" for="option_3_{{ forloop.counter }}"
+            >{{ question.option_3 }}</label
+          >
+        </div>
+
+        <div class="form-check">
+          <input
+            type="radio"
+            id="option_4_{{ forloop.counter }}"
+            name="answer_{{question.id}}"
+            class="form-check-input"
+            value="{{ question.option_4 }}"
+          />
+          <label class="form-check-label" for="option_4_{{ forloop.counter }}"
+            >{{ question.option_4 }}</label
+          >
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Submit button with Bootstrap classes -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Countdown Timer Display as a Fixed Badge -->
+<span
+  id="timer"
+  class="position-fixed top-0 end-0 m-3 badge bg-danger h3 py-2 px-4"
+>
+  Time Remaining: 00:30
+</span>
+
+<!-- JavaScript to log out user after 30 seconds and show countdown -->
+<script>
+  // Set the initial time (30 seconds)
+  var timeLeft = 30;
+
+  // Function to update the timer
+  function updateTimer() {
+    // Calculate minutes and seconds
+    var minutes = Math.floor(timeLeft / 60);
+    var seconds = timeLeft % 60;
+
+    // Format time as MM:SS (two digits for seconds)
+    var formattedTime = `${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+
+    // Update the timer display
+    document.getElementById("timer").textContent =
+      "Time Remaining: " + formattedTime;
+
+    // Decrease time
+    if (timeLeft > 0) {
+      timeLeft--;
+    } else {
+      // Once time is up, log the user out
+      window.location.href = "{% url 'logout' %}";
+    }
+  }
+
+  // Call the updateTimer function every 1000 milliseconds (1 second)
+  setInterval(updateTimer, 1000);
+
+  // Log out after 30 seconds
+  setTimeout(function () {
+    window.location.href = "{% url 'logout' %}";
+  }, 30000); // 30000 milliseconds = 30 seconds
+</script>
+
+{% endblock %}

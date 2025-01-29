@@ -1,0 +1,21 @@
+{% extends "layout/auth.html" %} {% block content %}
+<div class="container my-5">
+  <!-- Card to display the result -->
+  <div class="card p-4 shadow-lg">
+    <!-- Title for the result -->
+    <h1 class="text-center text-success mb-4">Your Result</h1>
+
+    <!-- Displaying the score inside the card -->
+    <p class="text-center h4">
+      You got <strong>{{ score }}</strong> out of
+      <strong>{{ total_questions }}</strong> correct!
+    </p>
+
+    <!-- Button to try the quiz again with Bootstrap styling -->
+    <div class="text-center mt-4">
+      <a href="{% url 'logout' %}" class="btn btn-primary btn-lg">Try Again</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
