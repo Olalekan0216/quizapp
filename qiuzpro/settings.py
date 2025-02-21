@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'qiuzpro.wsgi.application'
+WSGI_APPLICATION = 'qiuzpro.qiuzapp.wsgi.application'
 
 
 # Database
